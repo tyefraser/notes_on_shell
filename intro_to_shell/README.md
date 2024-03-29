@@ -267,7 +267,6 @@ git config --global user.email "your_email@example.com"
 git clone https://github.com/tyefraser/notes_on_shell.git
 ````
 
-
 3. **Access the Repository Directory**: After cloning, a new directory will be created with the same name as the repository. Use `cd` to change into that directory:
 
 ````bash
@@ -328,7 +327,6 @@ To do this in the terminal the following steps should work
 * type `python3 hello.py` and your code will run and print "Hello World!"
 
 
-
 2. **Shell Script** (`run_python.sh`): This script will run the `hello.py` Python script.
 
 ````bash
@@ -368,14 +366,14 @@ python /../python/hello_name.py John
 ````
 
 2. **Make the Script Executable**:
-   Open a terminal where the `run_python.sh` file is saved and run:
+   Open a terminal where the `run_hello_name.sh` file is saved and run:
    ```bash
-   chmod +x run_python.sh
+   chmod +x run_hello_name.sh
    ```
 3. **Run the Shell Script**:
    Still in the terminal, execute the script by running:
    ```bash
-   ./run_python.sh
+   ./run_hello_name.sh
    ```
 
 This shell script will execute the Python script, displaying "Hello from Python!" on your terminal. This process demonstrates the integration of shell scripting with Python, showcasing how shell scripts can be used to automate and run other programs, including Python and R scripts.
