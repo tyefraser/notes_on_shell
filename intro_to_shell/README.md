@@ -393,23 +393,294 @@ In the next sections, we will go over some more of the core knowledge that will 
 
 
 # Getting Started with Shell Scripts
-- **The Shebang (`#!`)**: Start with explaining the shebang line (`#!/bin/bash`), which specifies the interpreter.
-- **Writing Your First Script**: Provide a simple "Hello, World!" example.
-  ```bash
-  #!/bin/bash
-  echo "Hello, World!"
-  ```
-- **Making Scripts Executable**: Teach how to give execution permissions using `chmod +x scriptname.sh`.
 
-### 3. Basic Concepts and Constructs
-- **Variables**: Explain how to declare and use variables.
-  ```bash
-  name="John"
-  echo "Hello, $name!"
-  ```
-- **Control Structures**: Introduce `if` statements, `for` loops, and `while` loops with examples.
-- **Functions**: How to define and call functions.
-- **Input and Output**: Handling user input with `read` and directing output with `echo`, `printf`.
+When you're beginning with shell scripting, understanding the basics sets a strong foundation for writing more complex scripts. Let's dive into some of the fundamental concepts you'll need to know.
+
+## The Shebang (`#!`)
+
+The shebang (`#!`) is a character sequence at the very start of a script file that tells the system which interpreter to use to execute the file. It is followed by the path to the interpreter. For shell scripts, this is commonly `/bin/bash` for Bash scripts, although you can specify other shells or interpreters according to your needs.
+
+The shebang line is only effective when the script is invoked as an executable file. If you run the script as an argument to the shell explicitly (e.g., `bash scriptname.sh`), the shebang line is ignored because the shell to use has already been specified.
+
+Example shebang for a Bash script:
+````bash
+#!/bin/bash
+````
+
+You can see this in the [run_hello_name.sh](\shell\run_hello_name.sh) file.
+
+## Writing Your First Script
+
+Let's start with the classic "Hello, World!" script. This script will simply print "Hello, World!" to the terminal. Here's how you can write your first script:
+
+1. Open your text editor and create a new file named `hello_world.sh`.
+2. Enter the following content into the file:
+
+````bash
+#!/bin/bash
+echo "Hello, World!"
+````
+
+3. Save and close the file.
+
+This script starts with the shebang line to specify that it should be executed with `/bin/bash`, followed by a command (`echo`) that prints a message to the terminal.
+
+## Making Scripts Executable
+
+For your script to be run as an executable file, you need to grant it execution permissions. This is done with the `chmod` command, which changes the file's mode bits to allow execution. Here's how to make your script executable:
+
+1. Open a terminal and navigate to the directory containing your script.
+2. Run the following command:
+
+````bash
+chmod +x hello_world.sh
+````
+
+The `chmod +x` command adds execution permission for the user, group, and others (i.e., everyone). Now, your script is executable.
+
+To run your script, you can simply type `./hello_world.sh` from the terminal while in the same directory as the script. You should see "Hello, World!" printed to the terminal, indicating your script ran successfully.
+
+By understanding these foundational elements—shebang lines, writing basic scripts, and making scripts executable—you're now equipped to start exploring more complex scripting tasks. These basics form the cornerstone of shell scripting, enabling you to automate tasks and streamline your workflows effectively.
+
+# Navigating UNIX
+
+Navigating through the filesystem in a UNIX or UNIX-like system is a fundamental skill for any user. The command line provides a powerful and flexible way to browse directories, manage files, and understand the structure of your system. Here's an overview of essential commands for navigating the UNIX filesystem, including some commonly used options for each.
+
+## Listing Files and Directories: `ls`
+
+The `ls` command is used to list the files and directories in the filesystem.
+
+- `ls`: List files and directories in the current directory.
+- `ls -a`: List all entries, including hidden files starting with `.`.
+- `ls -l`: List in long format, showing permissions, ownership, size, and modification date.
+- `ls -h`: When used with `-l`, shows file sizes in a human-readable format.
+- `ls -R`: List directories recursively, including all subdirectories.
+- `ls -t`: Sort files by modification time, newest first.
+
+Example:
+
+````bash
+ls -lah
+````
+
+This command lists all files (`-a`) in long format (`-l`) with human-readable sizes (`-h`), in the current directory.
+
+## Changing Directories: `cd`
+
+The `cd` command changes the current working directory.
+
+- `cd directory_name`: Changes the current directory to `directory_name`.
+- `cd`: Without any arguments, changes the directory to the user's home directory.
+- `cd ..`: Moves up one directory (to the parent directory).
+- `cd -`: Changes to the previous directory.
+
+Example:
+
+````bash
+cd /notes_on_shell/intro_to_shell
+````
+
+This command changes the current working directory to `/notes_on_shell/intro_to_shell`.
+
+## Creating Directories: `mkdir`
+
+The `mkdir` command is used to create new directories.
+
+- `mkdir directory_name`: Creates a new directory named `directory_name`.
+- `mkdir -p path/to/directory`: Creates a directory and all necessary parent directories.
+
+Example:
+
+````bash
+mkdir -p new_folder/sub_folder
+````
+
+This command creates a new directory `new_folder` and a subdirectory `sub_folder` within it, including any intermediate directories as necessary.
+
+## Removing Files and Directories: `rm` and `rmdir`
+
+- `rm file_name`: Removes (deletes) a file.
+- `rm -r directory_name`: Recursively removes a directory and all its contents.
+- `rm -f file_name`: Forcefully removes a file without prompting for confirmation.
+- `rmdir directory_name`: Removes an empty directory. For non-empty directories, use `rm -r`.
+
+Example:
+
+````bash
+rm -rf old_directory
+````
+
+This command forcefully and recursively removes `old_directory` and all its contents.
+
+## Viewing the Current Path: `pwd`
+
+The `pwd` command prints the working directory's full pathname.
+
+Example:
+
+````bash
+pwd
+````
+
+This command outputs the current directory's absolute path.
+
+## Creating and Viewing Files: `touch` and `cat`
+
+- `touch file_name.txt`: Creates a new file if it doesn't exist or updates the modification time if it does.
+- `cat file_name.txt`: Displays the contents of a file. (if it is empty nothing will diaplay)
+- `nano file_name.txt`: Opens the file in and editor. To exit follow the commands at the bottom of the editor (or chatGPT/Google if you have trouble)
+- `vi file_name.txt`: Opens the file in and editor. Note, to exit vim:
+   - If You Want to Save Your Changes, Press `Esc`, Type `:wq` (which stands for "write and quit") or `:x`,ress `Enter`.
+   - If You Want to Exit Without Saving Changes, Press `Esc`,Type `:q!`, Press `Enter`.
+   - If you've started the quit process but decide you're not sure (for example, after pressing `:`), you can usually cancel and go back to editing by pressing `Esc`.
+   - Remember, `vi`/`vim` has different modes:
+      - *Normal Mode*: For navigating and manipulating the text.
+      - *Insert Mode*: For inserting text. Enter this mode by pressing `i` when in normal mode.
+      - *Command Mode*: Accessed by pressing `:` from normal mode, for entering commands like `wq`, `x`, `q!`, etc.
+
+Understanding these modes is key to effectively using `vi`/`vim`.
+
+Example:
+
+````bash
+touch new_file.txt
+nano new_file.txt # enter text into the file and save it
+cat new_file.txt
+````
+
+This first command creates `new_file.txt`, and the second command would display its contents.
+
+By mastering these commands and their options, you can efficiently navigate and manage files in a UNIX or UNIX-like system's command line environment. Remember, the command line is very powerful, and with great power comes the responsibility to use it wisely—especially with commands that can delete data.
+
+# Basic Concepts and Constructs
+
+Understanding the basic concepts and constructs of shell scripting is essential for automating tasks and creating efficient scripts. Let's delve into some fundamental components such as variables, control structures, functions, and input/output operations.
+
+## Variables
+
+Variables in shell scripting store data that can be used and manipulated within the script. To declare a variable, simply assign a value to a name without spaces.
+
+````bash
+name="John"
+echo "Hello, $name!"
+````
+
+Variables are called by prefixing the variable name with a dollar sign (`$`). It's also good practice to enclose your variables in quotes to prevent issues with spaces and special characters.
+
+To run the above, you can enter each line in the terminal, or run the [file](\shell\run_hello_name.sh)file by entering:
+`chmod +x \shell\run_hello_name.sh`
+`.\shell\variables.sh`
+
+## Control Structures
+
+Control structures control the flow of execution in your script. They include conditional statements and loops.
+
+### If Statements
+
+`if` statements allow you to execute commands based on conditions.
+
+````bash
+if [ "$name" == "John" ]; then
+  echo "Hello, John!"
+else
+  echo "Who are you?"
+fi
+````
+
+### For Loops
+
+`for` loops are used for iterating over a list of values.
+
+````bash
+for i in 1 2 3; do
+  echo "Looping ... number $i"
+done
+````
+
+### While Loops
+
+`while` loops perform a set of commands as long as the given condition is true.
+
+````bash
+count=1
+while [ $count -le 5 ]; do
+  echo "Count: $count"
+  count=$((count + 1))
+done
+````
+
+## Functions
+
+Functions in shell scripting are blocks of code that can be reused. They are defined and then called by name.
+
+````bash
+greet() {
+  echo "Hello, $1!"
+}
+
+greet "John"
+````
+
+Functions can accept arguments, referred to inside the function as `$1`, `$2`, etc., based on their position.
+
+## Input and Output
+
+### Reading User Input
+
+The `read` command captures input from the user and stores it in a variable.
+
+````bash
+echo "Enter your name: "
+read name
+echo "Hello, $name!"
+````
+
+### Directing Output
+
+- `echo` is used for displaying a line of text.
+- `printf` offers more formatting options compared to `echo`.
+
+````bash
+printf "Hello, %s!\n" "$name"
+````
+
+`printf` uses format specifiers like `%s` for strings and `%d` for integers, followed by the variables containing the values to format.
+
+## Additional Items
+
+### Test `[ ]`
+
+The test command `[ ]` evaluates expressions, including file existence and comparison operations.
+
+````bash
+if [ -f "$filename" ]; then
+  echo "$filename exists."
+fi
+````
+
+### Redirecting Output
+
+Output of commands can be redirected to files using `>`, `>>`, or piped into other commands with `|`.
+
+````bash
+echo "Hello, World!" > hello.txt  # Overwrites the file
+echo "Hello, again!" >> hello.txt # Appends to the file
+cat hello.txt | grep Hello
+````
+
+### Exit Status
+
+Every command returns an exit status (`$?`), with `0` typically meaning success. This can be used in scripts to check if a command succeeded.
+
+````bash
+ls /not/a/real/directory
+if [ $? -ne 0 ]; then
+  echo "The command failed."
+fi
+````
+
+Understanding these basic concepts and constructs is crucial for writing effective shell scripts. With practice, you can start combining these elements to automate complex tasks and streamline your workflow.
+
 
 ### 4. Advanced Topics
 - **Arrays**: Usage and examples.
