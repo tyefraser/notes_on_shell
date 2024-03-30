@@ -232,7 +232,7 @@ Notes:
 ## Gibhub repo
 In order to run the code from this repo in your linux environment, you will need to load the repo. To get your repository you'll use Git, the distributed version control system. This process involves cloning the repository from GitHub to your local machine within the WSL environment. Here's how to do it step-by-step:
 
-### Step 1: Install Git in (if not already installed)
+### Step 1: Install Git (if not already installed)
 First, ensure that Git is installed in your distribution. Open your terminal and run the following command to install Git:
 
 For Debian/Ubuntu-based distributions:
@@ -353,7 +353,7 @@ The Python script `hello_name.py` has been created and saved. You can download i
 [Download hello_name.py](\python\hello_name.py)
 
 
-1. **Create the Shell Script**
+2. **Create the Shell Script**
 Use a text editor to create a new file named `run_hello_name.sh` and paste the following script:
 
 [Download run_hello_name.sh](\shell\run_hello_name.sh)
@@ -365,32 +365,34 @@ Use a text editor to create a new file named `run_hello_name.sh` and paste the f
 python /../python/hello_name.py John
 ````
 
-2. **Make the Script Executable**:
+3. **Make the Script Executable**:
    Open a terminal where the `run_hello_name.sh` file is saved and run:
-   ```bash
+   ````bash
    chmod +x run_hello_name.sh
-   ```
-3. **Run the Shell Script**:
+   ````
+
+Note: to get to the folder with the `run_hello_name.sh` file you will have to cd into it. Remember, you can explore the folders using `cd <folder name>` to enter a folder, `cd ..` to get out of a folder, and `ls` to list the contents of a folder. You should end up in a folder like `~/notes_on_shell/intro_to_shell/shell`, which you can get to directly using `cd ~/notes_on_shell/intro_to_shell/shell`. Then use `ls` to check the files in that folder and you should see the `run_hello_main.sh` file.
+
+4. **Run the Shell Script**:
    Still in the terminal, execute the script by running:
    ```bash
    ./run_hello_name.sh
    ```
 
-This shell script will execute the Python script, displaying "Hello from Python!" on your terminal. This process demonstrates the integration of shell scripting with Python, showcasing how shell scripts can be used to automate and run other programs, including Python and R scripts.
+This shell script will execute the Python script, displaying "You entered: John" on your terminal. This process demonstrates the integration of shell scripting with Python, showcasing how shell scripts can be used to automate and run other programs, including Python and R scripts.
+
+## Summary
+You have now seen how shell scripting can be used to explore folders, files, and run code. You can play around with the code if you like to run different or updated code (for example change 'John' to your name in the shell script). Although what we have done may not seem like much, it is the basis for much more advanced code and automation. With a little bit more research you should be able to run a lot more complex code. For example you could create dynamic shell script variables (e.g. getting the current date to use as a function argument) and schedule a shell script to run daily, weekly, monthly etc. to automate repetitive tasks.
+
+In the next sections, we will go over some more of the core knowledge that will make you a decent shell programmer. This will open the doors to:
+* using linux based systems (think AWS and cloud computing + automation)
+* scheduling scripts
+* simplifying command line arguments (automate the structure of function arguments so you don't have to enter them every time)
+* ensure that multiple tasks get executed (9e.g. if a python script fails, shell will still run the next script rather than stop all computations)
+* logging
 
 
-
-
-
-# Get repo into linux
-(TO DO: import the repo into a folder using gitbash within linux)
-You should be able to import this complete repository and run the functions available.
-
-
-
-
-
-### 2. Getting Started with Shell Scripts
+# Getting Started with Shell Scripts
 - **The Shebang (`#!`)**: Start with explaining the shebang line (`#!/bin/bash`), which specifies the interpreter.
 - **Writing Your First Script**: Provide a simple "Hello, World!" example.
   ```bash
