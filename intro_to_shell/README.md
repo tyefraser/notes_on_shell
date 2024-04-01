@@ -567,9 +567,9 @@ echo "Hello, $name!"
 
 Variables are called by prefixing the variable name with a dollar sign (`$`). It's also good practice to enclose your variables in quotes to prevent issues with spaces and special characters.
 
-To run the above, you can enter each line in the terminal, or run the [file](\shell\run_hello_name.sh)file by entering:
-`chmod +x \shell\run_hello_name.sh`
-`.\shell\variables.sh`
+To run the above, you can enter each line in the terminal, or run the [file](/shell/variables.sh)file by entering:
+`chmod +x shell/variables.sh`
+`./shell/variables.sh`
 
 ## Control Structures
 
@@ -597,6 +597,15 @@ for i in 1 2 3; do
 done
 ````
 
+You can enter this as one line in the terminal as:
+````bash
+for i in 1 2 3; do echo "Looping ... number $i";done
+````
+
+Or you can run:
+`chmod +x shell/loop.sh`
+`./shell/loop.sh`
+
 ### While Loops
 
 `while` loops perform a set of commands as long as the given condition is true.
@@ -608,6 +617,15 @@ while [ $count -le 5 ]; do
   count=$((count + 1))
 done
 ````
+
+Note: le stands for "less than or equal to".
+
+To run this you can enter the following into the terminal:
+`count=1; while [ $count -le 5 ]; do echo "Count: $count"; count=$((count + 1));done`
+
+Or run the file:
+`chmod +x shell/while.sh`
+`./shell/while.sh`
 
 ## Functions
 
@@ -623,6 +641,10 @@ greet "John"
 
 Functions can accept arguments, referred to inside the function as `$1`, `$2`, etc., based on their position.
 
+You can run the functions.sh script using:
+`chmod +x shell/function.sh`
+`./shell/function.sh`
+
 ## Input and Output
 
 ### Reading User Input
@@ -635,6 +657,10 @@ read name
 echo "Hello, $name!"
 ````
 
+You can run the functions.sh script using:
+`chmod +x shell/io.sh`
+`./shell/io.sh`
+
 ### Directing Output
 
 - `echo` is used for displaying a line of text.
@@ -646,17 +672,98 @@ printf "Hello, %s!\n" "$name"
 
 `printf` uses format specifiers like `%s` for strings and `%d` for integers, followed by the variables containing the values to format.
 
+You can run the functions.sh script using:
+`chmod +x shell/printf.sh`
+`./shell/printf.sh`
+
+
 ## Additional Items
 
 ### Test `[ ]`
 
-The test command `[ ]` evaluates expressions, including file existence and comparison operations.
+The test command `[ ]` in shell scripting is a fundamental construct used for evaluating conditional expressions. Inside the brackets, various types of tests can be performed, including checking file attributes, comparing strings, and evaluating arithmetic conditions. The outcome of the test command determines the execution flow of conditional statements like `if`.
 
+#### Syntax
+The general syntax for using the test command is:
+````bash
+[ expression ]
+````
+It's important to note that spaces around the brackets and expression are required, as they are part of the syntax.
+
+#### Commonly Used Test Expressions
+
+##### File Tests
+- `-f file`: True if `file` exists and is a regular file.
+- `-d directory`: True if `directory` exists and is a directory.
+- `-e entity`: True if the entity (file or directory) exists.
+- `-r file`: True if `file` exists and is readable.
+- `-w file`: True if `file` exists and is writable.
+- `-x file`: True if `file` exists and is executable.
+
+##### String Tests
+- `string1 = string2`: True if the strings are equal.
+- `string1 != string2`: True if the strings are not equal.
+- `-z string`: True if the string is empty.
+- `-n string`: True if the string is not empty.
+
+##### Arithmetic Tests
+- `num1 -eq num2`: True if num1 is equal to num2.
+- `num1 -ne num2`: True if num1 is not equal to num2.
+- `num1 -lt num2`: True if num1 is less than num2.
+- `num1 -le num2`: True if num1 is less than or equal to num2.
+- `num1 -gt num2`: True if num1 is greater than num2.
+- `num1 -ge num2`: True if num1 is greater than or equal to num2.
+
+#### Examples
+
+**Check if file exists**:
 ````bash
 if [ -f "$filename" ]; then
   echo "$filename exists."
 fi
 ````
+
+**Check if a file is writable**:
+````bash
+if [ -w "$filename" ]; then
+  echo "$filename is writable."
+else
+  echo "$filename is not writable."
+fi
+````
+
+**Compare two strings**:
+````bash
+if [ "$string1" = "$string2" ]; then
+  echo "The strings are equal."
+else
+  echo "The strings are not equal."
+fi
+````
+
+**Check if a variable is set and not empty**:
+````bash
+if [ -n "$variable" ]; then
+  echo "Variable is set and not empty."
+else
+  echo "Variable is unset or empty."
+fi
+````
+
+You can run the following to test the above:
+`chmod +x shell/test.sh`
+`./shell/test.sh`
+
+
+#### Advanced Usage
+
+The `[[ ]]` construct is a more advanced version of the test command, offering several enhancements like pattern matching for strings. However, it is not POSIX-compliant and may not be available in all shells.
+
+#### Note
+
+It's crucial to quote variable expansions within test expressions to prevent errors or unexpected behavior when variables contain spaces or are empty.
+
+Understanding the test command and its various expressions is essential for writing robust shell scripts that can make decisions based on file attributes, string values, and arithmetic comparisons.
 
 ### Redirecting Output
 
@@ -665,7 +772,11 @@ Output of commands can be redirected to files using `>`, `>>`, or piped into oth
 ````bash
 echo "Hello, World!" > hello.txt  # Overwrites the file
 echo "Hello, again!" >> hello.txt # Appends to the file
+cat hello.txt
 cat hello.txt | grep Hello
+echo "Overwritten!" > hello.txt
+cat hello.txt
+rm hello.txt
 ````
 
 ### Exit Status
@@ -688,10 +799,169 @@ Understanding these basic concepts and constructs is crucial for writing effecti
 - **Error Handling**: Using `set -e` and custom error messages.
 - **Debugging Scripts**: Techniques and tools (like `bash -x`).
 
+# Advanced Topics
+
+As you become more comfortable with basic shell scripting concepts, you'll find that advanced features can significantly enhance the functionality and robustness of your scripts. Here are some advanced topics, including arrays, script arguments, error handling, and debugging techniques.
+
+## Arrays
+
+Shell scripting supports arrays, which are useful for storing and manipulating lists of data.
+
+### Defining Arrays
+You can define an array in Bash by simply listing elements within parentheses, separated by spaces.
+
+````bash
+my_array=("apple" "banana" "cherry")
+````
+
+### Accessing Array Elements
+Elements can be accessed by their index, with the first element at index 0.
+
+````bash
+echo "${my_array[0]}"  # Outputs "apple"
+````
+
+### Iterating Over Arrays
+Use a loop to iterate over each element in the array.
+
+````bash
+for fruit in "${my_array[@]}"; do
+  echo "$fruit"
+done
+````
+
+### Array Length
+To get the number of elements in an array:
+
+````bash
+echo "${#my_array[@]}"
+````
+
+## Script Arguments
+
+Scripts often need to accept input parameters, which are accessible inside the script as `$1`, `$2`, etc., corresponding to the order they were provided.
+
+````bash
+#!/bin/bash
+echo "First argument: $1"
+echo "Second argument: $2"
+````
+
+To handle an unknown number of arguments, you can loop over `$@`:
+
+````bash
+for arg in "$@"; do
+  echo "$arg"
+done
+````
+
+## Error Handling
+
+Robust scripts should handle errors gracefully.
+
+### Exit on Error
+`set -e` instructs the shell to exit the script if any command returns a non-zero status (indicating failure).
+
+````bash
+set -e
+cp non_existent_file.txt another_location/
+````
+
+### Custom Error Messages
+Use conditional statements to provide informative error messages.
+
+````bash
+if ! cp important_file.txt backup_location/; then
+  echo "Failed to copy important_file.txt to backup_location/"
+  exit 1
+fi
+````
+
+## Debugging Scripts
+
+Debugging shell scripts can be challenging, but Bash provides tools to make it easier.
+
+### Using `set -x`
+Enabling the `-x` option with `set -x` prints each command before it's executed, along with its arguments.
+
+````bash
+set -x
+echo "Debugging this script"
+````
+
+### Redirecting stderr
+You can redirect the standard error stream (`stderr`) to a file for later inspection.
+
+````bash
+your_command 2> error_log.txt
+````
+
+### Checking Return Values
+Explicitly check the return value of commands with `$?`.
+
+````bash
+your_command
+if [ $? -ne 0 ]; then
+  echo "your_command failed"
+fi
+````
+
+Utilizing these advanced features and techniques can greatly improve the functionality, readability, and reliability of your shell scripts. Whether it's managing complex data with arrays, handling user inputs gracefully, ensuring your scripts fail safely, or finding and fixing bugs, these tools are invaluable for any shell scripter.
+
+
+
+
+
+
+
+
 ### 5. Practical Examples
 - **File Operations**: Scripts for creating, listing, and modifying files and directories.
 - **System Administration**: Automating user creation, system updates, and backups.
 - **Networking**: Scripts for checking network connectivity, port scanning.
+
+to do: write a function that reads a csv file that has 2 columns:
+position, name
+1, Alex
+2, Jordan
+3, Taylor
+4, Casey
+5, Morgan
+6, Jamie
+7, Avery
+8, Riley
+9, Quinn
+10, Corey
+11, Sam
+12, Cameron
+13, Skyler
+14, Kendall
+15, Peyton
+16, Dakota
+17, Devon
+18, Jesse
+19, Parker
+20, Frankie
+21, Charlie
+22, Bailey
+23, Drew
+24, Robin
+25, Sidney
+26, Reese
+27, Hayden
+28, Rowan
+29, Finley
+30, Sage
+31, Blake
+32, Ellis
+33, Lee
+34, Adrian
+35, Jamie
+36, Chris
+37, Pat
+38, Andy
+39, Kelly
+40, Dana
 
 ### 6. Best Practices
 - **Code Readability**: Using comments, meaningful variable names.
