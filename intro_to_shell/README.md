@@ -922,59 +922,27 @@ fi
 Utilizing these advanced features and techniques can greatly improve the functionality, readability, and reliability of your shell scripts. Whether it's managing complex data with arrays, handling user inputs gracefully, ensuring your scripts fail safely, or finding and fixing bugs, these tools are invaluable for any shell scripter.
 
 
+# Practical Examples
+
+## Print positions
+
+The following script reads in a CSV and then uses the value to print the positions of each person. This is a useful skill to know as it will allow you to use CSV files to provide inputs to your shell scripts and use them as values. In this instance we print the values out to show the variables working, however you could use them as arguments to functions, for example the dates you want to run.
+
+This example also shows how functions can be used to manipulate the inputs provided to give values you want. In this case we show you how to convert numbers to their ordinal form (1, 2, 3, etc. tp 1st, 2nd, 3rd). The same concept can be applied to convert numeric months to the month name (1 to January, etc.), or convert an amount from various currencies into a single currency (e.g. USD, CNY, GBP to AUD).
+
+[Download print_positions.sh](\shell/print_positions.sh)
+[Link to data](/data/positions.csv)
+
+Run the following in a terminal to test it out:
+
+`chmod +x shell/print_positions.sh`
+`./shell/print_positions.sh data/positions.csv`
 
 
-
-
-
-
-### 5. Practical Examples
 - **File Operations**: Scripts for creating, listing, and modifying files and directories.
 - **System Administration**: Automating user creation, system updates, and backups.
 - **Networking**: Scripts for checking network connectivity, port scanning.
 
-to do: write a function that reads a csv file that has 2 columns:
-position, name
-1, Alex
-2, Jordan
-3, Taylor
-4, Casey
-5, Morgan
-6, Jamie
-7, Avery
-8, Riley
-9, Quinn
-10, Corey
-11, Sam
-12, Cameron
-13, Skyler
-14, Kendall
-15, Peyton
-16, Dakota
-17, Devon
-18, Jesse
-19, Parker
-20, Frankie
-21, Charlie
-22, Bailey
-23, Drew
-24, Robin
-25, Sidney
-26, Reese
-27, Hayden
-28, Rowan
-29, Finley
-30, Sage
-31, Blake
-32, Ellis
-33, Lee
-34, Adrian
-35, Jamie
-36, Chris
-37, Pat
-38, Andy
-39, Kelly
-40, Dana
 
 ### 6. Best Practices
 - **Code Readability**: Using comments, meaningful variable names.
