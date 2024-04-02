@@ -793,12 +793,6 @@ fi
 Understanding these basic concepts and constructs is crucial for writing effective shell scripts. With practice, you can start combining these elements to automate complex tasks and streamline your workflow.
 
 
-### 4. Advanced Topics
-- **Arrays**: Usage and examples.
-- **Script Arguments**: Accessing script arguments via `$1`, `$2`, etc.
-- **Error Handling**: Using `set -e` and custom error messages.
-- **Debugging Scripts**: Techniques and tools (like `bash -x`).
-
 # Advanced Topics
 
 As you become more comfortable with basic shell scripting concepts, you'll find that advanced features can significantly enhance the functionality and robustness of your scripts. Here are some advanced topics, including arrays, script arguments, error handling, and debugging techniques.
@@ -834,7 +828,7 @@ done
 To get the number of elements in an array:
 
 ````bash
-echo "${#my_array[@]}"
+echo "${#my_array[@]}"  # Outputs 3
 ````
 
 ## Script Arguments
@@ -847,6 +841,19 @@ echo "First argument: $1"
 echo "Second argument: $2"
 ````
 
+To run the file:
+`chmod +x shell/arguments_two.sh`
+`./shell/arguments_two.sh this that`
+`./shell/arguments_two.sh this that test`
+Test doesnt print in the above
+`./shell/arguments_two.sh this`
+Prints:
+````bash
+Argument 1: this
+Argument 2:
+`````
+
+
 To handle an unknown number of arguments, you can loop over `$@`:
 
 ````bash
@@ -854,6 +861,11 @@ for arg in "$@"; do
   echo "$arg"
 done
 ````
+
+`chmod +x shell/arguments_any.sh`
+`./shell/arguments_any.sh this that`
+`./shell/arguments_any.sh this that test`
+`./shell/arguments_any.sh this`
 
 ## Error Handling
 
@@ -866,6 +878,7 @@ Robust scripts should handle errors gracefully.
 set -e
 cp non_existent_file.txt another_location/
 ````
+This will close the terminal as the location doesnt exist.
 
 ### Custom Error Messages
 Use conditional statements to provide informative error messages.
