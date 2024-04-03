@@ -350,13 +350,13 @@ To make this work, follow these steps:
 1. **Create the Python Script**
 The Python script `hello_name.py` has been created and saved. You can download it using the link below:
 
-[Download hello_name.py](\python\hello_name.py)
+[Download hello_name.py](/python/hello_name.py)
 
 
 2. **Create the Shell Script**
 Use a text editor to create a new file named `run_hello_name.sh` and paste the following script:
 
-[Download run_hello_name.sh](\shell\run_hello_name.sh)
+[Download run_hello_name.sh](/shell/run_hello_name.sh)
 
 ````bash
 #!/bin/bash
@@ -407,7 +407,7 @@ Example shebang for a Bash script:
 #!/bin/bash
 ````
 
-You can see this in the [run_hello_name.sh](\shell\run_hello_name.sh) file.
+You can see this in the [run_hello_name.sh](/shell/run_hello_name.sh) file.
 
 ## Writing Your First Script
 
@@ -924,13 +924,16 @@ Utilizing these advanced features and techniques can greatly improve the functio
 
 # Practical Examples
 
+Shell scripting excels in automating repetitive tasks, making it an invaluable tool for file operations, system administration, and networking tasks. Here are some practical examples that demonstrate the power and versatility of shell scripts in these areas.
+
+
 ## Print positions
 
 The following script reads in a CSV and then uses the value to print the positions of each person. This is a useful skill to know as it will allow you to use CSV files to provide inputs to your shell scripts and use them as values. In this instance we print the values out to show the variables working, however you could use them as arguments to functions, for example the dates you want to run.
 
 This example also shows how functions can be used to manipulate the inputs provided to give values you want. In this case we show you how to convert numbers to their ordinal form (1, 2, 3, etc. tp 1st, 2nd, 3rd). The same concept can be applied to convert numeric months to the month name (1 to January, etc.), or convert an amount from various currencies into a single currency (e.g. USD, CNY, GBP to AUD).
 
-[Download print_positions.sh](\shell/print_positions.sh)
+[Download print_positions.sh](/shell/print_positions.sh)
 [Link to data](/data/positions.csv)
 
 Run the following in a terminal to test it out:
@@ -939,19 +942,222 @@ Run the following in a terminal to test it out:
 `./shell/print_positions.sh data/positions.csv`
 
 
-- **File Operations**: Scripts for creating, listing, and modifying files and directories.
-- **System Administration**: Automating user creation, system updates, and backups.
-- **Networking**: Scripts for checking network connectivity, port scanning.
+## File Operations
+
+### Creating Files and Directories
+This script creates a directory and a file within it, then writes content to the file.
+
+````bash
+#!/bin/bash
+mkdir -p my_directory
+touch my_directory/my_file.txt
+echo "Hello, World!" > my_directory/my_file.txt
+````
+
+### Listing Files in a Directory
+The following script lists all files in the current directory, including hidden ones.
+
+````bash
+#!/bin/bash
+echo "Listing all files, including hidden ones:"
+ls -la
+````
+
+### Modifying Files
+This example script appends text to an existing file.
+
+````bash
+#!/bin/bash
+echo "Appending to file..."
+echo "New line of text" >> existing_file.txt
+````
+
+## System Administration
+
+### Automating User Creation
+This script creates a new user with a home directory.
+
+````bash
+#!/bin/bash
+if [ "$(id -u)" != "0" ]; then
+  echo "Please run as root"
+  exit 1
+fi
+
+username=$1
+
+if [ -z "$username" ]; then
+  echo "Usage: $0 username"
+  exit 1
+fi
+
+useradd -m "$username"
+echo "User $username added successfully."
+````
+
+### System Updates
+A simple script to update system packages (for Debian/Ubuntu systems).
+
+````bash
+#!/bin/bash
+echo "Updating system packages..."
+apt-get update && apt-get upgrade -y
+echo "Update complete."
+````
+
+### Backups
+This script creates a backup of the `/home` directory.
+
+````bash
+#!/bin/bash
+backup_dir="/backup"
+date=$(date +%Y-%m-%d)
+tar -czf "$backup_dir/home_backup_$date.tar.gz" /home
+echo "Backup created at $backup_dir/home_backup_$date.tar.gz"
+````
+
+## Networking
+
+### Checking Network Connectivity
+This script checks the connectivity to a host.
+
+````bash
+#!/bin/bash
+host="example.com"
+ping -c 4 "$host" && echo "$host is reachable." || echo "$host is not reachable."
+````
+
+### Port Scanning
+A basic script to check if a specific port is open using `nc` (netcat).
+
+````bash
+#!/bin/bash
+host=$1
+port=$2
+
+if [ -z "$host" ] || [ -z "$port" ]; then
+  echo "Usage: $0 host port"
+  exit 1
+fi
+
+nc -zv "$host" "$port" && echo "Port $port is open." || echo "Port $port is closed."
+````
+
+These examples showcase just a fraction of what's possible with shell scripting. By automating tasks related to file management, system administration, and networking, shell scripts can save time, reduce human error, and significantly improve the efficiency of managing systems and networks.
 
 
-### 6. Best Practices
-- **Code Readability**: Using comments, meaningful variable names.
-- **Security**: Avoiding common security pitfalls, like unchecked user input.
-- **Performance**: Tips for writing efficient scripts.
+# 6 Best Practices
 
-### 7. Resources for Further Learning
-- **Books**: Recommend authoritative books on shell scripting.
-- **Online Resources**: Websites, forums, and communities where learners can find examples, ask questions, and share scripts.
+Writing effective shell scripts not only involves getting the script to accomplish its task but also ensuring that the script is readable, secure, and performs well. Here are some best practices to consider when writing shell scripts:
+
+## Code Readability
+
+### Using Comments
+Comments are crucial for maintaining scripts. They can explain the purpose of the script, how it works, and why certain decisions were made. Use comments liberally to describe complex sections of code or to provide a quick script overview at the beginning.
+
+````bash
+#!/bin/bash
+# This script performs a backup of the /home directory
+
+# Creating backup directory if it doesn't exist
+mkdir -p /backup
+````
+
+### Meaningful Variable Names
+Choose variable names that reflect their purpose. This makes your script easier to understand and maintain.
+
+```bash
+# Less descriptive
+d="/backup"
+
+# More descriptive
+backup_directory="/backup"
+```
+
+## Security
+
+### Avoiding Common Security Pitfalls
+- **Unchecked User Input**: Always validate user input to avoid injection attacks and other vulnerabilities. For instance, if your script uses user input to form file paths or commands, ensure that the input cannot be manipulated to execute unintended commands or access unauthorized files.
+
+```bash
+read -p "Enter filename: " filename
+# Validate the filename before using it
+```
+
+- **Use Absolute Paths**: Where possible, use absolute paths for commands to avoid the risk of executing malicious scripts with the same name in the current directory.
+
+```bash
+# Less secure
+ls
+
+# More secure
+/bin/ls
+```
+
+## Performance
+
+### Tips for Writing Efficient Scripts
+- **Avoid Unnecessary Commands**: Each command spawns a new process, which can slow down your script. Use shell built-in commands and features whenever possible instead of external commands.
+
+```bash
+# Use shell parameter expansion instead of calling `basename`
+filename="/path/to/file.txt"
+basename "$filename"  # External command
+echo "${filename##*/}"  # Shell parameter expansion
+```
+
+- **Minimize File System Access**: Accessing the file system can be slow, especially in loops. Minimize the number of times your script reads from or writes to the file system.
+
+```bash
+# Instead of writing to a file within a loop, consider appending to a variable and writing once at the end
+for i in {1..100}; do
+  log+="Log entry $i\n"
+done
+echo -e "$log" > log.txt
+```
+
+- **Use Efficient Text Processing**: When processing text, tools like `awk` and `sed` can be more efficient than shell loops.
+
+```bash
+# Use awk or sed for text processing
+awk '/pattern/ { action }' file
+```
+
+Adhering to these best practices will make your shell scripts more reliable, maintainable, and secure. It also ensures that your scripts run as efficiently as possible, conserving system resources and saving time.
+
+# Resources for Further Learning
+
+Expanding your knowledge and skills in shell scripting can greatly enhance your ability to automate tasks, manage systems, and process data efficiently. Here are some recommended resources, including both books and online platforms, to help you continue learning.
+
+## Books
+
+### "The Linux Command Line" by William Shotts
+A comprehensive introduction to the world of the Linux command line, covering everything from basic commands to script writing. It's well-suited for beginners and those looking to solidify their command-line fundamentals.
+
+### "Learning the bash Shell" by Cameron Newham
+Part of the O'Reilly series, this book dives into bash, the most common Unix shell. It covers basic scripting, flow control structures, and more advanced topics like signal handling and command-line options.
+
+### "Shell Scripting: Expert Recipes for Linux, Bash, and More" by Steve Parker
+A more advanced book that provides solutions to common tasks and problems faced by system administrators and power users. It's great for those who have a basic understanding of shell scripting and want to deepen their expertise.
+
+## Online Resources
+
+### [ShellCheck](https://www.shellcheck.net/)
+An online tool (also available as a standalone application) that analyzes your shell scripts and provides feedback on syntax errors, common mistakes, and potential improvements. It's invaluable for improving script quality.
+
+### [Bash Hackers Wiki](https://wiki.bash-hackers.org/)
+An extensive resource for bash users, covering syntax, patterns, and practical examples. It's a great place to deepen your understanding of bash features and scripting best practices.
+
+### [Stack Overflow](https://stackoverflow.com/questions/tagged/bash)
+A question-and-answer site for programmers. The bash tag contains a wealth of information and practical advice on shell scripting. You can find answers to specific questions or ask your own.
+
+### [Reddit: r/bash](https://www.reddit.com/r/bash/)
+A community dedicated to bash scripting where users share scripts, tips, and ask for advice on their scripting problems. It's a friendly place for both beginners and experienced scripters to learn and contribute.
+
+### [GitHub](https://github.com/)
+Not only a platform for version control but also a vast repository of user-contributed scripts and projects. Searching GitHub can provide examples of real-world scripts to study and learn from.
+
+By leveraging these resources, you can continue to grow your skills in shell scripting, staying updated on best practices and discovering new techniques to tackle complex scripting challenges. Whether you're a beginner looking to get started or an experienced professional seeking to advance your knowledge, there's always more to learn in the versatile world of shell scripting.
 
 ### 8. Exercises and Challenges
 - Provide exercises with increasing complexity to practice scripting skills, from basic file handling to writing scripts that solve real-world problems.
@@ -959,32 +1165,78 @@ Run the following in a terminal to test it out:
 This outline should serve as a solid foundation for your notes and teaching material. Each section can be expanded with more detailed explanations, examples, and tips tailored to the audience's existing knowledge and needs. Shell scripting is a powerful skill, and with practical examples and clear explanations, learners will find it an invaluable tool in their arsenal.
 
 
+# Exercises and Challenges
+
+To solidify your understanding of shell scripting and apply what you've learned, it's essential to tackle hands-on exercises and challenges. Here are several exercises, arranged in order of increasing complexity, designed to enhance your scripting skills. These exercises cover basic file handling, system administration tasks, and scripting solutions to real-world problems.
+
+## Basic Level
+
+### Exercise 1: Create and Delete
+- **Objective**: Write a script that creates a directory called `test_dir` in your home directory, creates a file named `test_file.txt` inside it, writes "Hello, Shell Scripting!" to the file, then deletes both the file and the directory.
+
+### Exercise 2: User Input
+- **Objective**: Write a script that asks the user for their name and their favorite color. The script should then print a message greeting the user and stating their favorite color.
+
+## Intermediate Level
+
+### Exercise 3: Backup Script
+- **Objective**: Create a script that backs up a specified directory (passed as an argument) to another directory. The backup should have a timestamp in its name and should only include files that have been modified in the last 7 days.
+
+### Exercise 4: Batch Renaming
+- **Objective**: Write a script that renames all `.txt` files in a directory to `.bak`. The directory should be specified as an argument to the script. Bonus: Include a way to revert the changes.
+
+## Advanced Level
+
+### Exercise 5: System Report
+- **Objective**: Develop a script that generates a system report, including the current date and time, the system uptime, the number of logged-in users, and the current disk usage. Format the report neatly and save it to a file named `system_report.txt`.
+
+### Exercise 6: Simple Network Checker
+- **Objective**: Write a script that checks if a list of specified websites (defined within the script) is reachable. The script should output the status of each website (UP or DOWN) and log the results with timestamps to a file.
+
+## Real-World Challenges
+
+### Challenge 1: Log Parser
+- **Objective**: Create a script that parses a specified log file, extracts entries from the last 24 hours, and counts the number of error messages. It should then email a summary to a specified email address. (Note: Actual sending of the email can be simulated by printing the email content to stdout.)
+
+### Challenge 2: User Cleanup
+- **Objective**: Write a script that scans the `/home` directory for user directories not accessed in the last year and generates a report with their names and sizes. The script should then ask for confirmation before deleting these directories and log the actions taken.
+
+These exercises and challenges are designed to provide practical experience with shell scripting, covering a range of tasks from simple file operations to scripts that address more complex scenarios and real-world problems. As you work through these exercises, remember to test your scripts thoroughly and consider edge cases to ensure reliability and robustness. Shell scripting is a versatile and powerful tool that, with practice, can significantly enhance your productivity and ability to automate tasks effectively.
 
 
+# Biggest take away
+
+This tutorial has given you a reasonable (I hope) introduction to shell scripting. It hasn't covered everything, and it's not the most efficient, but it should give you ideas on what you can do with shell scripting. I use it all the time to automatically run scripts either through for loops with multiple dates, or using a scheduler to automatically run code every month.
+
+But! The biggest take away would be that you can alway use AI (chatGPT) to give you the code you want. For example, I currently need to automatically run code for multiple months using a for loop with shell, but I want to be able to check what was printed for each run in a log file, so I have asked chatGTP:
 
 
+*To create a log file for each individual run of your Python script within the loop, you can redirect the output (both standard output and standard error) to a file. You can name the log file to include the month or any other unique identifier for each run. Here's how you could set it up:*
 
+````bash
+#!/bin/bash
 
+# Directory where you want to save log files
+log_directory="./logs"
 
+# Ensure the log directory exists
+mkdir -p "$log_directory"
 
+for month in 1 2 3; do
+  # Format the log file name to include the month and current timestamp for uniqueness
+  log_file="$log_directory/run_${month}_$(date +%Y-%m-%d_%H-%M-%S).log"
+  
+  # Run the Python script and redirect both stdout and stderr to the log file
+  python my_code.py "$month" > "$log_file" 2>&1
+done
+````
 
+*In this script:
+- `mkdir -p "$log_directory"` ensures the directory for logs exists. If it doesn't, the directory is created.
+- `date +%Y-%m-%d_%H-%M-%S` generates a timestamp to make each log file name unique and prevent overwriting. Adjust the date format as needed.
+- `> "$log_file"` redirects standard output (`stdout`) to the log file.
+- `2>&1` redirects standard error (`stderr`) to where standard output is going, effectively logging both output and error messages to the log file.
 
+This setup ensures that for each iteration of the loop (for each month), any output generated by `my_code.py` when executed is captured in a separate log file. The log files will be named in a way that identifies the month and the exact time the script was run, making it easy to review the logs later.*
 
-
-
-
-# Getting Started
-We will be running shell scripts, likely bash, within this guide. Therefore, you will need 
-You can run shell commands through a 
-How to get WSL?
-Use it through gitbash
-etc.?
-
-## Basic Navigation
-
-
-# Example scripts
-Show some initial practical examples of shell scripts in use
-Search for a file
-Run Python
-Run R
+And now I can use that to set up my scripting. Before running the actual run I might set it up using a dummy script (for example something that print the data or something in the python script) to test it works, then run the code I want to test. The reason I use this is that sometimes my code might take a while to complete and I don't want to sit around and wait for it and then run the next month - instead I can get it to run over lunch or night and check the outcome later.
